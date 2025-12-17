@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAS 出欠確認・編集（教員用）</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+
+<div class="login-wrapper">
+    <h1 class="system-title">IVY Attendance System</h1>
+    <h2 class="login-title">出欠確認・編集（教員用）</h2>
+
+    <div class="class-selector">
+        <label>クラスを選択</label>
+        <select id="classSelect">
+            <option value="">-- クラス選択 --</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+            <option value="B1">B1</option>
+        </select>
+    </div>
+
+    <table class="attendance-table">
+        <thead>
+            <tr>
+                <th>学生ID</th>
+                <th>学生名</th>
+                <th>出席</th>
+                <th>遅刻</th>
+                <th>早退</th>
+                <th>欠席</th>
+                <th>理由</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- サンプルデータ -->
+            <tr>
+                <td>251027</td>
+                <td>日高 祥</td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="text" placeholder="理由"></td>
+            </tr>
+            <tr>
+                <td>S12346</td>
+                <td>山田 太郎</td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="text" placeholder="理由"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="login-btn">保存</button>
+
+    <a href="../index.html" class="back-link">← メインメニューへ戻る</a>
+</div>
+<script>
+function updateClock() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+
+    const weekJP = ["日", "月", "火", "水", "木", "金", "土"];
+    const w = weekJP[now.getDay()];
+
+    document.getElementById("clock").textContent =
+        `${y}/${m}/${d} (${w}) ${hh}:${mm}:${ss}`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+<div id="clock"></div>
+
+</html>

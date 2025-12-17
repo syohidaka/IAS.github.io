@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出欠データ確認 - IAS 管理画面</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px 4px;
+            text-align: center;
+        }
+        #clock {
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            padding: 4px 8px;
+            background: #fff;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="container">
+    <h1>出欠データ確認</h1>
+    <p style="font-size:14px; margin-bottom:10px;">
+        登録された学生の出欠データを一覧表示します。
+    </p>
+
+    <!-- 月とクラスでフィルタ（簡易版） -->
+    <div style="margin-bottom:10px;">
+        <label for="monthSelect">対象月：</label>
+        <input type="month" id="monthSelect">
+                学籍番号：
+        <input type="text" id="studentIdFilter" placeholder="例：251027" inputmode="numeric">
+
+        <button id="reloadBtn" class="login-btn" style="padding:4px 10px; margin-left:8px;">
+            表示更新
+        </button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>日付</th>
+                <th>クラス</th>
+                <th>学籍番号</th>
+                <th>氏名</th>
+                <th>区分</th>      <!-- 出席 / 欠席 / 遅刻 など -->
+                <th>理由</th>
+                <th>登校時刻</th>
+                <th>下校時刻</th>
+            </tr>
+        </thead>
+        <tbody id="attendanceBody"></tbody>
+    </table>
+
+    <a href="admin_menu.html" class="back-link">← 管理者メニューへ戻る</a>
+</div>
+
+<script src="admin_all_data.js"></script>
+</body>
+</html>

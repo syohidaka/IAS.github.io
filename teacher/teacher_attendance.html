@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>教員打刻画面 - IAS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .attendance-wrapper {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .atk-btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .in   { background:#2ecc71; color:#fff; }
+    .out  { background:#e74c3c; color:#fff; }
+    .brk  { background:#f1c40f; }
+    .info-box {
+      margin-top: 10px;
+      padding: 10px;
+      background:#f8f8f8;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    #clock {
+      position: fixed;
+      right: 20px;
+      top: 10px;
+      padding: 4px 8px;
+      background: #fff;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .status-message { margin:0; line-height:1.6; }
+
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 90px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      font-size: 14px;
+    }
+    .btn-save {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #34495e;
+      color: #fff;
+    }
+    .warn {
+      color: #b00020;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="attendance-wrapper">
+  <img
+    src="../images/ivy-attendance-logo.png"
+    alt="IVY Attendance System ロゴ"
+    class="system-logo"
+  >
+
+  <p id="teacherHello" style="text-align:center; margin-bottom:10px;"></p>
+
+  <div class="btn-row">
+    <button id="clockInBtn"     type="button" class="atk-btn in">出勤</button>
+    <button id="breakStartBtn"  type="button" class="atk-btn brk">休憩開始</button>
+    <button id="breakEndBtn"    type="button" class="atk-btn brk">休憩終了</button>
+    <button id="clockOutBtn"    type="button" class="atk-btn out">退勤</button>
+  </div>
+
+  <div class="attendance-status">
+    <h3>本日の打刻状況</h3>
+    <p id="statusLines" class="status-message">まだ打刻していません。</p>
+  </div>
+
+  <div class="info-box">
+    <h3>本日の勤務集計</h3>
+    <p id="summaryLines">勤務時間：- / 残業時間：-</p>
+  </div>
+
+  <!-- 残業理由：残業が発生したら表示 -->
+  <div id="overtimeBox" class="info-box" style="display:none;">
+    <h3>残業理由（8時間超）</h3>
+    <textarea id="overtimeReason" placeholder="例：会議対応／教材作成／保護者対応／提出物処理 など"></textarea>
+    <button id="saveReasonBtn" type="button" class="btn-save">理由を保存</button>
+    <p id="reasonWarn" class="warn" style="display:none;">※残業が発生しています。理由を入力してください。</p>
+  </div>
+
+  <a href="../index.html" class="back-link">← メインメニューへ戻る</a>
+</div>
+
+<script>
+  // 時計
+  function updateClock() {
+    const now = new Date();
+    const w = ["日","月","火","水","木","金","土"][now.getDay()];
+    document.getElementById("clock").textContent =
+      `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} (${w}) ` +
+      `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
+
+<script src="teacher_attendance.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラス追加</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>クラス追加</h1>
+
+    <label>クラス名</label>
+    <input type="text" id="className">
+
+    <button class="btn btn-add" onclick="saveClass()">保存</button>
+
+    <a href="class_manage.html" class="back-link">← クラス編集に戻る</a>
+</div>
+
+<script>
+function saveClass() {
+    const name = document.getElementById("className").value.trim();
+    if (!name) {
+        alert("クラス名を入力してください");
+        return;
+    }
+
+    const classes = JSON.parse(localStorage.getItem("classes") || "[]");
+    classes.push({ name });
+    localStorage.setItem("classes", JSON.stringify(classes));
+
+    alert("登録しました！");
+    location.href = "class_manage.html";
+}
+</script>
+
+</body>
+</html>

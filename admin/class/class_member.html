@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラスメンバー編集</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <style>
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        li span.member-main {
+            flex: 1;
+        }
+        .btn {
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            font-size: 12px;
+        }
+        .btn-edit { background: #f1c40f; color:#000; }
+        .btn-del  { background: #e74c3c; color:#fff; }
+        .btn-add  { background: #3498db; color:#fff; margin-bottom: 10px; }
+        .btn + .btn { margin-left: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1 id="classNameTitle">メンバー編集</h1>
+
+    <button class="btn btn-add" onclick="addMember()">＋ 学生を追加</button>
+
+    <ul id="memberList"></ul>
+
+    <a href="class_manage.html" class="back-link">← クラス編集に戻る</a>
+
+</div>
+
+<script>
+/* ========== 共通データ ========== */
+const classes  = JSON.parse(localStorage.getItem("classes")  || "[]");
+const students = JSON.parse(localStorage.getItem("students") || "[]");
+
+// class_manage.html から保存しているクラスインデックス
+let currentClassIndex = -1;
+let currentClass = null;
+
+const storedIndex = localStorage.getItem("editClassIndex");
+if (storedIndex !== null && classes[storedIndex]) {
+    currentClassIndex = Number(storedIndex);
+    currentClass = classes[currentClassIndex];
+}
+
+// クラスが見つからなければ戻す
+if (!currentClass) {
+    alert("クラス情報が取得できません。クラス編集画面から開き直してください。");
+    location.href = "class_manage.html";
+}
+
+// members 配列がなければ初期化しておく（他画面との連携用）
+if (!Array.isArray(currentClass.members)) {
+    currentClass.members = [];
+}
+
+// タイトルにクラス名表示
+document.getElementById("classNameTitle").textContent =
+    `${currentClass.name} のメンバー編集`;
+
+// 共通保存関数
+function saveAll() {
+    localStorage.setItem("students", JSON.stringify(students));
+    localStorage.setItem("classes",  JSON.stringify(classes));
+}
+
+/* ========== メンバー一覧表示 ========== */
+function loadMembers() {
+    const list = document.getElementById("memberList");
+    list.innerHTML = "";
+
+    // members を基準に、このクラスの学生を抽出
+    const memberIds = currentClass.members;
+    const members = students.filter(s => memberIds.includes(s.id));
+
+    if (members.length === 0) {
+        list.innerHTML = "<li>このクラスにはまだ学生が登録されていません。</li>";
+        return;
+    }
+
+    members.forEach(st => {
+        list.innerHTML += `
+            <li>
+                <span class="member-main">${st.id} : ${st.name}</span>
+                <div>
+                    <button class="btn btn-edit" onclick="editStudent('${st.id}')">編集</button>
+                    <button class="btn btn-del"  onclick="removeMember('${st.id}')">クラスから外す</button>
+                    <button class="btn btn-del"  onclick="deleteStudent('${st.id}')">完全削除</button>
+                </div>
+            </li>
+        `;
+    });
+}
+
+/* ========== 学生情報編集 ========== */
+function editStudent(studentId) {
+    const s = students.find(x => x.id === studentId);
+    if (!s) {
+        alert("学生が見つかりません。");
+        return;
+    }
+
+    const name   = prompt("氏名を入力してください", s.name);
+    if (name === null) return; // キャンセル
+
+    const kana   = prompt("ふりがなを入力してください", s.kana || "");
+    if (kana === null) return;
+
+    const gender = prompt("性別（例：男 / 女）", s.gender || "");
+    if (gender === null) return;
+
+    const email  = prompt("メールアドレス", s.email || "");
+    if (email === null) return;
+
+    s.name   = name.trim();
+    s.kana   = kana.trim();
+    s.gender = gender.trim();
+    s.email  = email.trim();
+
+    saveAll();
+    loadMembers();
+    alert("学生情報を更新しました。");
+}
+
+/* ========== クラスから外す（所属解除） ========== */
+function removeMember(studentId) {
+    const s = students.find(x => x.id === studentId);
+    if (!s) {
+        alert("学生が見つかりません。");
+        return;
+    }
+
+    if (!confirm(`学籍番号 ${s.id}：${s.name} をこのクラスから外しますか？`)) {
+        return;
+    }
+
+    // 学生側：クラス情報を外す
+    if (s.class === currentClass.id) {
+        s.class = "";
+    }
+
+    // クラス側：members からIDを削除
+    currentClass.members = currentClass.members.filter(id => id !== studentId);
+
+    saveAll();
+    loadMembers();
+}
+
+/* ========== 学生そのものを完全削除 ========== */
+function deleteStudent(studentId) {
+    const idx = students.findIndex(x => x.id === studentId);
+    if (idx === -1) {
+        alert("学生が見つかりません。");
+        return;
+    }
+
+    const s = students[idx];
+
+    if (!confirm(`学籍番号 ${s.id}：${s.name} の学生情報を完全に削除しますか？\n※元に戻せません。`)) {
+        return;
+    }
+
+    // students から削除
+    students.splice(idx, 1);
+
+    // すべてのクラス.members からも削除（念のため）
+    classes.forEach(c => {
+        if (Array.isArray(c.members)) {
+            c.members = c.members.filter(id => id !== studentId);
+        }
+    });
+
+    saveAll();
+    loadMembers();
+}
+
+/* ========== 学生をクラスに追加 ========== */
+function addMember() {
+    // まだどのクラスにも所属していない学生を候補にする
+    const freeStudents = students.filter(s => !s.class || s.class === "");
+
+    if (freeStudents.length === 0) {
+        alert("追加できる学生がいません（全員どこかのクラスに所属しています）。");
+        return;
+    }
+
+    let listText = "";
+    freeStudents.forEach(s => {
+        listText += `${s.id} : ${s.name}\n`;
+    });
+
+    const id = prompt(
+        "追加する学生の学籍番号を入力してください：\n\n" + listText
+    );
+
+    if (!id) return;
+
+    const st = students.find(s => s.id === id);
+    if (!st) {
+        alert("その学籍番号の学生は見つかりません。");
+        return;
+    }
+
+    // 学生側：このクラスに所属させる
+    st.class = currentClass.id;
+
+    // クラス側：members に追加（重複防止）
+    if (!currentClass.members.includes(st.id)) {
+        currentClass.members.push(st.id);
+    }
+
+    saveAll();
+    loadMembers();
+    alert("学生をクラスに追加しました。");
+}
+
+/* 初期表示 */
+loadMembers();
+</script>
+
+</body>
+</html>

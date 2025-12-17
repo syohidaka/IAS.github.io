@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAS 学生打刻画面</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="clock"></div>
+
+<body>
+  
+
+
+<div class="login-wrapper">
+  <!-- ロゴ画像 -->
+  <img
+    src="../images/ivy-attendance-logo.png"
+    alt="IVY Attendance System ロゴ"
+    class="system-logo"
+  >
+
+  <h2 class="login-title">学生ログイン</h2>
+
+
+  <h3 id="welcome-msg"></h3>
+
+  <div class="attendance-buttons">
+    <button id="startButton" class="login-btn">登校（出勤）</button>
+    <button id="endButton"   class="login-btn">下校（退勤）</button>
+  </div>
+
+  <div class="attendance-status">
+    <h3>本日の打刻状況</h3>
+    <p id="status-message">まだ打刻していません。</p>
+  </div>
+
+  <a href="student_history.html" class="history-link-btn">
+    自分の出欠履歴を見る
+  </a>
+
+  <a href="../index.html" class="back-link">
+    ← メインメニューへ戻る
+  </a>
+</div>
+
+<!-- 時計だけこの html 側で処理 -->
+<script>
+  function updateClock() {
+    const now = new Date();
+    const y  = now.getFullYear();
+    const m  = String(now.getMonth() + 1).padStart(2, "0");
+    const d  = String(now.getDate()).padStart(2, "0");
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+    const weekJP = ["日","月","火","水","木","金","土"];
+    const w = weekJP[now.getDay()];
+    document.getElementById("clock").textContent =
+      `${y}/${m}/${d} (${w}) ${hh}:${mm}:${ss}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
+
+<!-- 打刻ロジックは全部この JS に任せる -->
+<script src="student_attendance.js"></script>
+
+</body>
+</html>

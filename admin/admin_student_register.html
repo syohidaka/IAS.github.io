@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生登録 - IAS 管理画面</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="login-wrapper">
+    <!-- ロゴ画像を表示 -->
+    <img src="../images/ivy-attendance-logo.png"
+         alt="IVY Attendance System ロゴ"
+         class="system-logo">
+
+    <h2 class="login-title">学生登録</h2>
+    <form class="login-form" id="studentForm">
+        <label>学籍番号</label>
+        <input type="text" id="studentId" placeholder="例：S001">
+
+        <label>氏名</label>
+        <input type="text" id="studentName">
+
+        <label>ふりがな</label>
+        <input type="text" id="studentKana">
+
+        <label>クラス</label>
+        <select id="studentClass"></select>
+
+        <label>性別</label>
+        <select id="studentGender">
+            <option value="">選択してください</option>
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+
+        <label>メール</label>
+        <input type="email" id="studentEmail">
+
+        <label>初期パスワード</label>
+        <input type="password" id="studentPass">
+
+        <!-- ここがポイント：type="button" ＋ idをつける -->
+        <button type="button" id="studentRegisterBtn" class="login-btn">登録</button>
+    </form>
+
+    <a href="class/class_manage.html" class="back-link">← クラス編集へ戻る</a>
+</div>
+
+<!-- 時計スクリプト（動いていればそのままでOK） -->
+<script>
+function updateClock() {
+    const now = new Date();
+    const w = ["日","月","火","水","木","金","土"][now.getDay()];
+    document.getElementById("clock").textContent =
+        `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} (${w}) `
+        + `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+<!-- ★ 必ず body の一番最後に置く -->
+<script src="admin_student_register.js"></script>
+</body>
+</html>

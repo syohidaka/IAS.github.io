@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAS 教員メニュー</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="login-wrapper">
+    <!-- ★ ロゴ画像（student_login.html と同じ書き方） -->
+    <img
+      src="../images/ivy-attendance-logo.png"
+      alt="IVY Attendance System ロゴ"
+      class="system-logo"
+    >
+    <!-- あいさつ -->
+    <p id="teacherHello" style="font-size:18px; margin-bottom:8px;"></p>
+
+<!-- 現在ログイン中表示 -->
+    <p id="teacherLoginInfo" style="font-size:14px; margin-bottom:16px; color:#555;"></p>
+
+<!-- システムの注釈（必要なら） -->
+    <p class="system-note" style="font-size:12px; color:#888; margin-bottom:20px;">
+        ※ このシステムは同時ログインを前提としない <strong>シングルユーザー運用</strong> を想定しています。<br>
+        ※勤務履歴等は<strong>画面から</strong>印刷してください。
+    </p>
+
+    <div class="menu-buttons">
+        <a href="teacher_attendance.html" class="menu-btn">打刻（出勤・退勤）</a>
+        <a href="teacher_history.html" class="menu-btn">自分の勤務履歴</a>
+        <!-- 必要なら他のメニューもここに追加 -->
+        <button id="logoutBtn" class="logout-btn">ログアウト</button>
+    </div>
+
+    <a href="../index.html" class="back-link">← メインメニューへ戻る</a>
+</div>
+
+<script>
+// 時計
+function updateClock() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    const weekJP = ["日", "月", "火", "水", "木", "金", "土"];
+    const w = weekJP[now.getDay()];
+
+    document.getElementById("clock").textContent =
+        `${y}/${m}/${d} (${w}) ${hh}:${mm}:${ss}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ログイン情報チェック
+const role        = sessionStorage.getItem("role");
+const teacherId   = sessionStorage.getItem("teacherId");
+const teacherName = sessionStorage.getItem("teacherName") || "教員";
+
+// 教員としてログインしていない場合はログイン画面へ
+if (role !== "teacher" || !teacherId) {
+    alert("教員としてログインしてください。");
+    location.href = "teacher_login.html";
+} else {
+    // 「こんにちは、○○先生」
+    const helloEl = document.getElementById("teacherHello");
+    if (helloEl) {
+        helloEl.textContent = `こんにちは、${teacherName} 先生`;
+    }
+
+    // 「現在ログイン中：教員 ○○先生（ID: T001）」
+    const infoEl = document.getElementById("teacherLoginInfo");
+    if (infoEl) {
+        infoEl.textContent = `現在ログイン中：教員 ${teacherName} 先生（ID: ${teacherId})`;
+    }
+}
+
+// ログアウトボタン
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        sessionStorage.clear();
+        alert("ログアウトしました");
+        location.href = "teacher_login.html";
+    });
+}
+</script>
+
+
+</body>
+</html>

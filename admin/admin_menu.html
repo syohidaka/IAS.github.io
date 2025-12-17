@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAS 管理者メニュー</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+
+<!-- 時計 -->
+<div id="clock"></div>
+
+<div class="login-wrapper">
+    <!-- ロゴ画像を表示 -->
+    <img src="../images/ivy-attendance-logo.png"
+         alt="IVY Attendance System ロゴ"
+         class="system-logo">
+
+    <h2 class="login-title">管理者メニュー</h2>
+
+    <!-- こんにちは ○○ さん -->
+    <p id="adminHello" style="font-size:18px; margin-bottom:20px;"></p>
+    <!-- 現在ログイン中：管理者 ○○ -->
+<p id="adminLoginInfo" style="font-size:14px; margin-bottom:16px; color:#555;"></p>
+
+<!-- システムの注釈 -->
+<p class="system-note" style="font-size:12px; color:#888; margin-bottom:20px;">
+    ※ このシステムは同時ログインを前提としない <strong>シングルユーザー運用</strong> を想定しています。
+</p>
+
+    <div class="menu-buttons">
+
+        <a href="admin_student_register.html" class="menu-btn">学生登録</a>
+        <a href="./class/class_manage.html" class="menu-btn">クラス編集</a>
+        <a href="admin_teacher_edit.html" class="menu-btn">教員編集</a>
+        <a href="admin_all_data.html" class="menu-btn">出欠データ確認</a>
+        <a href="teacher_history.html" class="menu-btn">教員勤務履歴</a>
+
+
+        <button id="logoutBtn" class="logout-btn">ログアウト</button>
+
+    </div>
+
+    <a href="../index.html" class="back-link">← メインメニューへ戻る</a>
+</div>
+
+<!-- 時計表示スクリプト -->
+<script>
+function updateClock() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+
+    const weekJP = ["日", "月", "火", "水", "木", "金", "土"];
+    const w = weekJP[now.getDay()];
+
+    document.getElementById("clock").textContent =
+        `${y}/${m}/${d} (${w}) ${hh}:${mm}:${ss}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+<!-- ログイン名の読み込みとログアウト処理 -->
+<script>
+    // ログイン時に保存した adminName を読み込む
+    const adminName = sessionStorage.getItem("adminName") || "管理者";
+
+    // あいさつ
+    document.getElementById("adminHello").textContent =
+        `こんにちは、${adminName} さん`;
+
+    // 現在ログイン中表示
+    const infoEl = document.getElementById("adminLoginInfo");
+    if (infoEl) {
+        infoEl.textContent = `現在ログイン中： ${adminName}`;
+    }
+
+    // ログアウトボタン
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        sessionStorage.clear();
+        alert("ログアウトしました");
+        location.href = "admin_login.html";
+    });
+</script>
+
+
+</body>
+</html>

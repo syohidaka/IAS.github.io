@@ -1,0 +1,499 @@
+/* ===============================
+   共通スタイル
+=============================== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "M PLUS 1p", sans-serif;
+    background: #f1f1f1;
+}
+
+/* ----- カード型ラッパー ----- */.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+
+.menu-btn {
+    display: block;
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 18px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.menu-btn:hover {
+    opacity: 0.85;
+}
+
+.logout-btn {
+    padding: 15px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.logout-btn:hover {
+    opacity: 0.85;
+}
+
+.login-wrapper {
+    width: 90%;
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+#clock {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px 14px;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+
+
+
+
+
+
+/* ----- タイトル ----- */
+.system-title {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.login-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* ----- フォーム ----- */
+.login-form {
+    text-align: left;
+}
+
+.login-form label {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 16px;
+}
+/* 追加：全要素を border-box にして横にはみ出さないようにする */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+.login-btn {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    background: #2c7a7b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #246363;
+}
+/* 「自分の出欠履歴を見る」を枠付きボタン風にする */
+.history-link-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 24px;
+  border-radius: 999px;        /* まるいボタン */
+  border: 2px solid #2c7a7b;   /* 枠線の色（ボタンと合わせた色） */
+  background-color: #ffffff;
+  color: #2c7a7b;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s,
+              box-shadow 0.15s, transform 0.05s;
+}
+
+.history-link-btn:hover {
+  background-color: #2c7a7b;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.history-link-btn:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+
+/* ----- メインメニュー戻りリンク ----- */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #2c7a7b;
+    text-decoration: none;
+    font-size: 14px;
+}
+/* ===== 管理画面：スマホで表が崩れないようにする ===== */
+.table-scroll{
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;          /* 列が多いので最低幅を持たせる */
+}
+
+.admin-table th,
+.admin-table td{
+  white-space: nowrap;       /* 変に折り返して高さが崩れるのを防ぐ */
+}
+
+/* ===============================
+   teacher_attendance_edit.html
+   出欠テーブル
+=============================== */
+.class-selector {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.class-selector label {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.class-selector select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+}
+
+/* テーブル全体 */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+/* テーブルヘッダーとセル */
+.attendance-table th,
+.attendance-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+}
+/* 本日の打刻状況のメッセージ共通 */
+.status-message {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 出席（オンタイム） */
+.status-present {
+  color: #16a34a;        /* 緑 */
+}
+
+/* 遅刻 */
+.status-late {
+  color: #d97706;        /* オレンジ */
+}
+
+/* 欠席 */
+.status-absent {
+  color: #dc2626;        /* 赤 */
+}
+
+
+/* 理由入力欄 */
+.attendance-table input[type="text"] {
+    width: 100%;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+/* チェックボックス中央揃え */
+.attendance-table input[type="checkbox"] {
+    transform: scale(1.2);
+}
+/* 学生ログイン・教員ログインなどカード内のロゴ */
+.login-wrapper .system-logo {
+  display: block;
+  margin: 0 auto 16px;  /* 中央寄せ & 下に余白 */
+  max-width: 260px;     /* ロゴの最大幅（お好みで） */
+  width: 100%;          /* カードの中でちょうどよく伸縮 */
+  height: auto;         /* 比率を保ったまま縮小 */
+}
+/* ログイン画面用ロゴのサイズ調整 */
+img.system-logo {
+  display: block;
+  margin: 0 auto 16px;
+  width: 400px !important;     /* ここで幅を固定 */
+  max-width: 80%;              /* 画面が狭いとき用 */
+  height: auto !important;     /* 縦横比を維持 */
+}
+
+/* ===== 出欠履歴ページ ===== */
+.history-wrapper {
+  max-width: 700px; /* login-wrapperより少し広め */
+}
+
+.history-title {
+  font-weight: 800; /* 太字 */
+}
+
+.history-sub {
+  margin: 6px 0 18px;
+  color: #555;
+  font-size: 14px;
+}
+
+.history-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+  margin: 16px 0 14px;
+}
+
+.history-controls .control label {
+  display: block;
+  text-align: left;
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.history-controls input[type="month"],
+.history-controls select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.small-btn {
+  margin-top: 0;
+  width: auto;
+  padding: 10px 14px;
+}
+
+.history-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  background: #f6f6f6;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 10px 0 14px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.history-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* teacher_history の表：スマホで潰れないように */
+.history-table{
+  min-width: 980px;     /* 列が多いので最低幅を確保（必要なら調整） */
+}
+
+.history-table th,
+.history-table td{
+  white-space: nowrap;  /* 「0時間0分」が縦に割れるのを防ぐ */
+}
+
+/* 読みやすいように列幅の最低値も少し */
+.history-table th:nth-child(1),
+.history-table td:nth-child(1){ min-width: 110px; } /* 日付 */
+.history-table th:nth-child(2),
+.history-table td:nth-child(2){ min-width: 80px; }  /* 教員ID */
+.history-table th:nth-child(3),
+.history-table td:nth-child(3){ min-width: 90px; }  /* 氏名 */
+.history-table th:nth-child(4),
+.history-table td:nth-child(4),
+.history-table th:nth-child(5),
+.history-table td:nth-child(5){ min-width: 90px; }  /* 出勤/退勤 */
+
+
+.row-present td { background: #f7fff7; }
+.row-late td    { background: #fff7e6; }
+.row-early td   { background: #eef6ff; }
+.row-absent td  { background: #fff0f0; }
+
+
+
+
+/* スマホ対応 */
+@media(max-width: 480px) {.history-table th:nth-child(6),
+  .history-table td:nth-child(6),
+  .history-table th:nth-child(7),
+  .history-table td:nth-child(7),
+  .history-table th:nth-child(8),
+  .history-table td:nth-child(8),
+  .history-table th:nth-child(9),
+  .history-table td:nth-child(9){
+    display: none;
+  }
+    .login-wrapper {
+        margin: 30px 10px;
+        padding: 20px 15px;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="password"],
+    .class-selector select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .login-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+    /* 共通ボタン */
+.btn {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-edit {
+    background: #f1c40f;
+}
+
+.btn-del {
+    background: #e74c3c;
+    color: #fff;
+}
+/* 打刻ボタンが無効のときの見た目 */
+.login-btn:disabled {
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+/* 出欠履歴リンク＋戻るリンクの並び */
+.history-and-back {
+  margin-top: 24px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 16px;         /* リンク同士のすき間 */
+  flex-wrap: wrap;   /* 画面が狭いときは折り返し */
+}
+
+/* 「自分の出欠履歴を見る」ボタン */
+.history-link {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 999px;                /* まるっこいボタン */
+  border: 2px solid #0f766e;           /* ボタンの枠色（メインカラーに合わせて調整） */
+  color: #0f766e;
+  background-color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.15s, color 0.15s, box-shadow 0.15s,
+              transform 0.05s;
+}
+
+.history-link:hover {
+  background-color: #0f766e;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+
+.history-link:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+/* 既存の「← メインメニューへ戻る」を少し軽めのリンクに */
+.back-link {
+  align-self: center;
+  font-size: 14px;
+  color: #555;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+.history-controls {
+    grid-template-columns: 1fr;
+  }
+  .small-btn {
+    width: 100%;
+  }
+  .container{
+    width: 92%;
+    margin: 20px auto;
+    padding: 16px;
+  }
+  .container h1{
+    font-size: 26px;
+  }
+  .admin-table th,
+  .admin-table td{
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  .btn{
+    font-size: 12px;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+
+
+}

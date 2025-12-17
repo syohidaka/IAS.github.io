@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラス編集</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>クラス編集</h1>
+
+    <label>クラス名</label>
+    <input type="text" id="className">
+
+    <button class="btn btn-edit" onclick="updateClass()">更新</button>
+
+    <a href="class_manage.html" class="back-link">← クラス編集に戻る</a>
+</div>
+
+<script>
+const index = localStorage.getItem("editClassIndex");
+let classes = JSON.parse(localStorage.getItem("classes") || "[]");
+
+document.getElementById("className").value = classes[index].name;
+
+// 更新処理
+function updateClass() {
+    const name = document.getElementById("className").value.trim();
+    if (!name) {
+        alert("クラス名を入力してください");
+        return;
+    }
+
+    classes[index].name = name;
+    localStorage.setItem("classes", JSON.stringify(classes));
+
+    alert("更新しました！");
+    location.href = "class_manage.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!-- teacher/teacher_history.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自分の勤務履歴 - IAS 教員画面</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px 4px;
+            text-align: center;
+        }
+        #summaryText {
+            margin-top: 12px;
+            font-weight: bold;
+            text-align: right;
+        }
+        #clock {
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            padding: 4px 8px;
+            background: #fff;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="container">
+    <h1>自分の勤務履歴</h1>
+    <p id="teacherInfo" style="margin-bottom:10px;"></p>
+
+    <!-- 月指定 -->
+    <label for="monthSelect">対象月：</label>
+    <input type="month" id="monthSelect">
+    <button id="reloadBtn" class="login-btn" style="padding:4px 10px; margin-left:8px;">
+        表示更新
+    </button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>日付</th>
+                <th>出勤</th>
+                <th>退勤</th>
+                <th>休憩開始</th>
+                <th>休憩終了</th>
+                <th>勤務時間</th>
+                <th>残業時間</th>
+            </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+    </table>
+
+    <p id="summaryText"></p>
+
+    <a href="teacher_menu.html" class="back-link">← 教員メニューへ戻る</a>
+</div>
+
+<script src="teacher_history.js"></script>
+
+</body>
+</html>

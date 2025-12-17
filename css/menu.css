@@ -1,0 +1,100 @@
+body {
+    font-family: "M PLUS 1p", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    text-align: center;
+}
+
+.container {
+    padding: 40px 20px;
+}
+
+.title {
+    font-size: 1.6rem;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.menu-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.menu-btn {
+    display: block;
+    background: #0078ff;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.menu-btn:hover {
+    background: #005fcc;
+}
+/* ロゴ全体の位置（中央寄せ） */
+.top-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0 60px;  /* 上下の余白はお好みで */
+}
+
+/* ロゴ画像のサイズ調整 */
+.top-logo {
+  height: 130px;   /* 好きな高さに調整してOK（例：60〜120pxくらい） */
+  width: auto;
+  display: block;
+}
+/* トップメニュー全体（カード） */
+.menu-card {
+  width: 90%;
+  max-width: 480px;
+  margin: 40px auto 60px;
+  background: #ffffff;
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+/* カード内のロゴ画像 */
+.menu-card .menu-logo {
+  display: block;
+  margin: 0 auto 24px;
+  width: 400px;        /* ロゴの横幅 */
+  max-width: 80%;
+  height: auto;
+}
+
+/* ボタンのまとまり */
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* メニューボタン */
+.menu-btn {
+  display: block;
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 18px;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.menu-btn:hover {
+  opacity: 0.9;
+}

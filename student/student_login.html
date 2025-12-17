@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生ログイン</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+
+<div class="login-wrapper">
+  <!-- ロゴ画像 -->
+  <img
+    src="../images/ivy-attendance-logo.png"
+    alt="IVY Attendance System ロゴ"
+    class="system-logo"
+  >
+
+  <h2 class="login-title">学生ログイン</h2>
+
+
+    <form class="login-form" id="loginForm">
+        <label>学生ID</label>
+        <input type="text" id="loginId" placeholder="例: S0001">
+
+        <label>パスワード</label>
+        <input type="password" id="loginPassword" placeholder="パスワード">
+
+        <button type="submit" class="login-btn">ログイン</button>
+    </form>
+
+    <p id="login-message" class="message"></p>
+
+   <a href="../index.html" class="back-link">← メインメニューへ戻る</a>
+
+
+<script src="student_login.js"></script>
+<script>
+function updateClock() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+
+    const weekJP = ["日", "月", "火", "水", "木", "金", "土"];
+    const w = weekJP[now.getDay()];
+
+    document.getElementById("clock").textContent =
+        `${y}/${m}/${d} (${w}) ${hh}:${mm}:${ss}`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+<div id="clock"></div>
+
+</html>

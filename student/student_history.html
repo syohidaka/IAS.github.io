@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAS 自分の出欠履歴</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .history-wrapper {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px 8px;
+            text-align: center;
+        }
+        th {
+            background: #f5f5f5;
+        }
+        #clock {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #fff;
+            box-shadow: 0 0 8px rgba(0,0,0,.1);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="history-wrapper">
+    <img src="../images/ivy-attendance-logo.png"
+       alt="IVY Attendance System ロゴ"
+       class="system-logo">
+
+    <h2 class="login-title">自分の出欠履歴</h2>
+    <h3 id="student-name"></h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>日付</th>
+                <th>登校時刻</th>
+                <th>下校時刻</th>
+            </tr>
+        </thead>
+        <tbody id="history-body">
+            <!-- JSで埋める -->
+        </tbody>
+    </table>
+
+    <a href="student_attendance.html" class="back-link">← 打刻画面へ戻る</a>
+</div>
+
+<!-- 学生情報取得用（getLoggedInStudent が入っている想定） -->
+<script src="common.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // ① ログイン中の学生を取得
+    const student = typeof getLoggedInStudent === "function"
+        ? getLoggedInStudent()
+        : JSON.parse(localStorage.getItem("loggedInStudent"));
+
+    if (!student) {
+        alert("ログインしてください");
+        window.location.href = "student_login.html";
+        return;
+    }
+
+    // 学生名表示
+    const nameEl = document.getElementById("student-name");
+    nameEl.textContent = `学籍番号：${student.studentId || student.id}　${student.name} さん`;
+
+    // ② 出欠データ読み込み
+    const allAttendance = JSON.parse(localStorage.getItem("attendanceData") || "{}");
+    const sid = student.studentId || student.id;
+    const myData = allAttendance[sid] || {}; // { "2025-12-05": {start:"09:00:00", end:"16:30:00"}, ... }
+
+    const tbody = document.getElementById("history-body");
+    tbody.innerHTML = "";
+
+    const entries = Object.entries(myData);
+    if (entries.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 3;
+        td.textContent = "まだ出欠データがありません。";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+    }
+
+    // ③ 日付の新しい順にソートして表示
+    entries
+        .sort((a, b) => (a[0] < b[0] ? 1 : -1)) // "YYYY-MM-DD" の文字列比較でOK
+        .forEach(([date, rec]) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${date}</td>
+                <td>${rec.start || "-"}</td>
+                <td>${rec.end   || "-"}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+});
+
+// ④ 右上の時計
+function updateClock() {
+    const now = new Date();
+    const y  = now.getFullYear();
+    const m  = String(now.getMonth() + 1).padStart(2, "0");
+    const d  = String(now.getDate()).padStart(2, "0");
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+    const wnames = ["日","月","火","水","木","金","土"];
+    const w  = wnames[now.getDay()];
+
+    const clock = document.getElementById("clock");
+    if (clock) {
+        clock.textContent = `${y}/${m}/${d} (${w}) ${hh}:${mm}:${ss}`;
+    }
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>クラスメンバー一覧</title>
+
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <style>
+    .container {
+      width: 95%;
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-add  { background: #3498db; color:#fff; }
+    .btn-edit { background: #f1c40f; }
+    .btn-del  { background: #e74c3c; color:#fff; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    th { background: #f5f5f5; }
+    .back-link { display: inline-block; margin-top: 16px; }
+    .muted { color:#666; font-size:12px; }
+    .danger-note { color:#b00020; font-size:12px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>クラスメンバー一覧</h1>
+
+  <div class="toolbar">
+    <label for="classSelect">クラスを選択：</label>
+    <select id="classSelect"></select>
+
+    <button id="addMemberBtn" type="button" class="btn btn-add">＋ 学生を追加</button>
+
+    <!-- クラス全員を完全削除 -->
+    <button id="hardDeleteAllBtn" type="button" class="btn btn-del">
+      完全削除（クラス全員）
+    </button>
+
+    <span class="danger-note">※完全削除は学生情報・所属・出欠データも消します</span>
+  </div>
+
+  <h2 id="classMemberTitle"></h2>
+  <div class="table-scroll">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>学籍番号</th>
+          <th>名前</th>
+          <th>ふりがな</th>
+          <th>性別</th>
+          <th>Gmail</th>
+          <th>編集</th>
+          <th>除外</th>
+          <th>完全削除</th>
+        </tr>
+      </thead>
+      <tbody id="memberList"></tbody>
+    </table>
+
+    <a href="class/class_manage.html" class="back-link">← クラス編集へ戻る</a>
+    <p class="muted">※ボタンが効かない場合はF12→Consoleでエラーを確認してください</p>
+  </div>
+</div>
+
+<!-- defer 推奨：DOM生成後にJSを実行 -->
+<script src="admin_student_members.js" defer></script>
+</body>
+</html>

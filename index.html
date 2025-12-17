@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVY Attendance System</title>
+
+    <!-- 修正：CSS パス -->
+    <link rel="stylesheet" href="css/menu.css">
+</head>
+
+<body>
+
+<!-- 時計（右上固定） -->
+<div id="clock"></div>
+
+ <!-- ここからメニュー用カード -->
+  <div class="menu-card">
+    <!-- ロゴ画像：class="menu-logo" が超大事 -->
+    <img
+      src="images/ivy-attendance-logo.png"
+      alt="IVY Attendance System ロゴ"
+      class="menu-logo"
+    />
+
+    <!-- ログインボタンたち -->
+    <div class="menu-buttons">
+      <a href="student/student_login.html" class="menu-btn">学生ログイン</a>
+      <a href="teacher/teacher_login.html" class="menu-btn">教員ログイン</a>
+      <a href="admin/admin_login.html" class="menu-btn">管理者ログイン</a>
+    </div>
+  </div>
+  <!-- ここまでメニュー用カード -->
+
+<script>
+function updateClock() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+
+    const weekJP = ["日", "月", "火", "水", "木", "金", "土"];
+    const w = weekJP[now.getDay()];
+
+    document.getElementById("clock").textContent =
+        `${y}/${m}/${d} (${w}) ${hh}:${mm}:${ss}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+<style>
+/* 右上固定時計のデザイン */
+#clock {
+    position: fixed;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+</style>
+
+</body>
+</html>

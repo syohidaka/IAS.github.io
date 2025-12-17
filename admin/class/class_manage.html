@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラス編集 - IAS 管理画面</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <style>
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        .btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        .btn-add { background: #3498db; color:#fff; }
+        .btn-edit { background: #f1c40f; }
+        .btn-del { background: #e74c3c; color:#fff; }
+    </style>
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="container">
+    <h1>クラス編集</h1>
+
+    <button class="btn btn-add" onclick="addClass()">＋ クラス追加</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>クラス名</th>
+                <th>編集</th>
+                <th>生徒一覧</th> 
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="classList"></tbody>
+    </table>
+
+    <a href="../admin_menu.html" class="back-link">← 管理メニューへ戻る</a>
+</div>
+
+<script>
+/* 時計共通 */
+function updateClock() {
+    const now = new Date();
+    document.getElementById("clock").textContent =
+        `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} 
+        ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* クラス読み込み */
+function loadClasses() {
+    const classes = JSON.parse(localStorage.getItem("classes") || "[]");
+    const list = document.getElementById("classList");
+    list.innerHTML = "";
+
+    // ★ここを書き換える
+    classes.forEach((c, index) => {
+        list.innerHTML += `
+            <tr>
+                <td>${c.id}</td>
+                <td>${c.name}</td>
+                <td><button class="btn btn-edit" onclick="editClass(${index})">編集</button></td>
+                <td><button class="btn btn-member" onclick="viewMembers(${index})">生徒一覧</button></td>
+                <td><button class="btn btn-del" onclick="deleteClass(${index})">削除</button></td>
+            </tr>
+        `;
+    });
+}
+
+
+/* 追加 */
+function addClass() {
+    const name = prompt("追加するクラス名を入力（例：1年A組）");
+    if (!name) return;
+
+    let classes = JSON.parse(localStorage.getItem("classes") || "[]");
+
+    const newClass = {
+        id: "C" + String(classes.length + 1).padStart(3, "0"),
+        name: name,
+        members: []
+    };
+
+    classes.push(newClass);
+    localStorage.setItem("classes", JSON.stringify(classes));
+    loadClasses();
+}
+
+/* 編集 */
+function editClass(index) {
+    let classes = JSON.parse(localStorage.getItem("classes") || "[]");
+    const newName = prompt("新しいクラス名を入力", classes[index].name);
+
+    if (!newName) return;
+
+    classes[index].name = newName;
+    localStorage.setItem("classes", JSON.stringify(classes));
+    loadClasses();
+}
+
+/* 削除 */
+function deleteClass(index) {
+    if (!confirm("本当に削除しますか？")) return;
+
+    let classes = JSON.parse(localStorage.getItem("classes") || "[]");
+    classes.splice(index, 1);
+    localStorage.setItem("classes", JSON.stringify(classes));
+    loadClasses();
+}
+/* 生徒一覧画面へ遷移 */
+/* 生徒一覧画面へ遷移 */
+function viewMembers(index) {
+    const classes = JSON.parse(localStorage.getItem("classes") || "[]");
+    const targetClass = classes[index];
+    if (!targetClass) return;
+
+    // どのクラスか保存
+    sessionStorage.setItem("selectedClassId", targetClass.id);
+
+    // ★ここを変更
+    // もともと: window.location.href = "class_member_list.html";
+    window.location.href = "../admin_student_members.html";
+}
+
+
+loadClasses();
+/* 生徒追加（学生登録画面へ遷移） */
+function editMember(index) {
+    const classes = JSON.parse(localStorage.getItem("classes") || "[]");
+    const targetClass = classes[index];
+    if (!targetClass) return;
+
+    // どのクラスに追加するかを保存しておく
+    sessionStorage.setItem("selectedClassId", targetClass.id);
+
+    // 学生登録画面へ遷移（パスがポイント）
+    window.location.href = "../admin_student_register.html";
+}
+
+</script>
+
+</body>
+</html>

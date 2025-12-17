@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教員編集 - IAS 管理画面</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        .btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        .btn-add { background: #3498db; color:#fff; margin-bottom:10px; }
+        .btn-edit { background: #f1c40f; }
+        .btn-del { background: #e74c3c; color:#fff; }
+        #clock {
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            padding: 4px 8px;
+            background: #fff;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="container">
+    <h1>教員編集</h1>
+
+    <button class="btn btn-add" onclick="addTeacher()">＋ 教員追加</button>
+
+    <div class="table-scroll">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>勤務時間</th>
+                <th>休憩（分）</th>
+                <th>有給残（日）</th>
+                <th>勤務履歴修正</th>
+                <th>基本情報編集</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="teacherList"></tbody>
+    </table>
+
+    <a href="admin_menu.html" class="back-link">← 管理メニューへ戻る</a>
+</div>
+
+<script>
+function updateClock() {
+    const now = new Date();
+    const w = ["日","月","火","水","木","金","土"][now.getDay()];
+    document.getElementById("clock").textContent =
+        `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} (${w}) ` +
+        `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+<script src="admin_teacher_edit.js"></script>
+
+</body>
+</html>

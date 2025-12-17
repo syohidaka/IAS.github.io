@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教員追加 - IAS 管理画面</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-save {
+            background: #28a745;
+            color: #fff;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        #clock {
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.8);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="clock"></div>
+
+<div class="container">
+    <h1>教員追加</h1>
+
+    <form id="addTeacherForm">
+        <label>教員ID</label>
+        <input type="text" id="teacherId" placeholder="例：T003" required>
+
+        <label>教員名</label>
+        <input type="text" id="teacherName" placeholder="例：田中 一郎" required>
+
+        <button type="submit" class="btn btn-save">保存</button>
+    </form>
+
+    <a href="teacher_manage.html" class="back-link">← 教員編集に戻る</a>
+</div>
+
+<script>
+/* ------------ 時計（共通） ------------ */
+function updateClock() {
+    const now = new Date();
+    const w = ["日","月","火","水","木","金","土"][now.getDay()];
+    document.getElementById("clock").textContent =
+        `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} (${w}) ` +
+        `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+
+/* ------------ 教員を保存する（ローカル保存） ------------ */
+document.getElementById("addTeacherForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const id = document.getElementById("teacherId").value;
+    const name = document.getElementById("teacherName").value;
+
+    // LocalStorage から既存データを取得
+    let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+
+    // 新しい教員データを追加
+    teachers.push({ id: id, name: name });
+
+    // LocalStorage に保存
+    localStorage.setItem("teachers", JSON.stringify(teachers));
+
+    alert("教員を登録しました！");
+
+    // 教員編集ページへ戻る
+    window.location.href = "teacher_manage.html";
+});
+</script>
+
+</body>
+</html>
